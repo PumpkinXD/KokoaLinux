@@ -1,7 +1,7 @@
 package cn.yesterday17.kokoalinux.input;
 
 import cn.yesterday17.kokoalinux.KokoaGlobal;
-import cn.yesterday17.kokoalinux.config.KokoaConfig;
+//import cn.yesterday17.kokoalinux.config.KokoaConfig;
 
 public class InputHelper {
     // Used by org.lwjgl.opengl.LinuxDisplay.incDisplay
@@ -47,6 +47,7 @@ public class InputHelper {
     }
 
     public static void setDebug() {
-        InputNative.instance.setDebug(KokoaConfig.debug ? 1 : 0);
+       /* InputNative.instance.setDebug(KokoaConfig.debug ? 1 : 0);*/
+        InputNative.instance.setDebug(1);
     }
 }

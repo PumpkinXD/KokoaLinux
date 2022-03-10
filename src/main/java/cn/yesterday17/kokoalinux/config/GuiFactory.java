@@ -1,4 +1,4 @@
-package cn.yesterday17.kokoalinux.config;
+/*package cn.yesterday17.kokoalinux.config;
 
 import cn.yesterday17.kokoalinux.KokoaLinux;
 import net.minecraft.client.Minecraft;
@@ -37,4 +37,4 @@ public class GuiFactory implements IModGuiFactory {
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
         return Collections.emptySet();
     }
-}
+}*/

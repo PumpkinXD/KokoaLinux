@@ -1,7 +1,8 @@
-package cn.yesterday17.kokoalinux.config;
+/*package cn.yesterday17.kokoalinux.config;
 
 import cn.yesterday17.kokoalinux.KokoaLinux;
-import net.minecraftforge.common.config.Config;
+//import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.*;
 
 @Config(modid = KokoaLinux.MOD_ID, name = KokoaLinux.NAME)
 public class KokoaConfig {
@@ -10,3 +11,4 @@ public class KokoaConfig {
 
     public static boolean debug = false;
 }
+*/

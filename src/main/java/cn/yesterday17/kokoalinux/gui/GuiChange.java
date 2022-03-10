@@ -11,16 +11,16 @@ public class GuiChange {
     @SubscribeEvent
     public static void didChangeGui(GuiOpenEvent event) {
         boolean canInput;
-        if (event.gui() == null) {
+        if (event.gui == null) {
             // Ignore null GuiScreens
             canInput = false;
-        } else if (event.gui() instanceof GuiChat) {
+        } else if (event.gui instanceof GuiChat) {
             // Skip, this should be handled by Focus
             return;
         } else {
             // Vanilla GuiScreens
-            canInput = event.gui() instanceof GuiScreenBook
-                    || event.gui() instanceof GuiEditSign;
+            canInput = event.gui instanceof GuiScreenBook
+                    || event.gui instanceof GuiEditSign;
 
             // TODO: Force enable map
         }

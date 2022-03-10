@@ -1,4 +1,4 @@
-package cn.yesterday17.kokoalinux.config;
+/*package cn.yesterday17.kokoalinux.config;
 
 import cn.yesterday17.kokoalinux.KokoaLinux;
 import cn.yesterday17.kokoalinux.input.InputHelper;
@@ -69,3 +69,4 @@ public class ConfigManager {
         }
     }
 }
+*/

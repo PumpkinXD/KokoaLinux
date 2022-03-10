@@ -1,6 +1,6 @@
 package cn.yesterday17.kokoalinux;
 
-import cn.yesterday17.kokoalinux.config.ConfigManager;
+//import cn.yesterday17.kokoalinux.config.ConfigManager;
 import cn.yesterday17.kokoalinux.gui.GuiChange;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -43,13 +43,13 @@ public class KokoaLinux extends DummyModContainer {
     @Subscribe
     public void preInit(FMLPreInitializationEvent event) {
         // Inject Config
-        ConfigManager.inject();
+        //ConfigManager.inject();
     }
 
     @Subscribe
     public void init(FMLInitializationEvent event) {
         // Subscribe events
         MinecraftForge.EVENT_BUS.register(GuiChange.class);
-        MinecraftForge.EVENT_BUS.register(ConfigManager.class);
+        //MinecraftForge.EVENT_BUS.register(ConfigManager.class);
     }
 }
