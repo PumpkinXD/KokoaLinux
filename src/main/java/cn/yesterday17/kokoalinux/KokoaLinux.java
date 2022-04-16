@@ -39,7 +39,7 @@ public class KokoaLinux extends DummyModContainer {
     @Subscribe
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        logger.getLevel();
+        //logger.getLevel();
     }
 
     @Subscribe
