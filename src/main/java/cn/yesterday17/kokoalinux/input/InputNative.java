@@ -43,7 +43,7 @@ public interface InputNative extends Library {
  */
  class InputNativeLoader {
     static InputNative load(){
-        //todo: extract native lib to ./config/kokoalinux/os-arch
+        //todo: extract native lib to ./config/kokoalinux/libkokoa/os-arch/
         String libpath; 
         os=SystemUtils.OS_NAME.toLowerCase();
         if(Platform.isIntel())
