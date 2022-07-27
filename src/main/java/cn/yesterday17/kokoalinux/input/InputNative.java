@@ -3,14 +3,22 @@ package cn.yesterday17.kokoalinux.input;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import org.apache.commons.lang3.SystemUtils;
 
 public interface InputNative extends Library {
 
 
-    InputNative instance =  InputNativeLoader.load();
+    //InputNative instance =  InputNativeLoader.load();
+    InputNative instance =  InputNativeLoader.Load();
 
 
     /////////////////////////////////////
@@ -42,7 +50,7 @@ public interface InputNative extends Library {
  * InputNativeLoader
  */
  class InputNativeLoader {
-    static InputNative load(){
+    static InputNative load_deprecated(){
         //todo: ~~extract native lib to ./config/kokoalinux/libkokoa/os-arch/~~ gonna deprecate this method, f*** jna3.4
         String libpath; 
         os=SystemUtils.OS_NAME.toLowerCase();
@@ -59,6 +67,19 @@ public interface InputNative extends Library {
         libpath=Paths.get("./config/kokoalinux/libkokoa",os + "-" + arch,"libkokoa.so").toAbsolutePath().toString();
         return (InputNative)Native.loadLibrary(libpath,InputNative.class);
     }
+    static InputNative Load(){
+        InputNative inst;
+        try {
+            inst=LoadFromJar();
+        } catch (IOException e) {
+                e.printStackTrace();
+                inst=(InputNative)Native.loadLibrary(
+                    Paths.get("./mods/kokoalinux/libkokoa","libkokoa.so").toAbsolutePath().toString(),
+                    InputNative.class);
+        }
+        return inst;
+    }
+
     static InputNative LoadFromJar() throws IOException {//https://github.com/adamheinrich/native-utils
     if(tempLibFileDir==null)
         {
@@ -67,7 +88,23 @@ public interface InputNative extends Library {
         }
         File tempLib=new File (tempLibFileDir,"libkokoa.so");
 
-        try (InputStream is=InputNativeLoader.class.getResourceAsStream(/*path to so, with plat dect*/)){
+        String libPathInsideTheJar;
+        libPathInsideTheJar="/"+SystemUtils.OS_NAME.toLowerCase()+"-"+SystemUtils.OS_ARCH.toLowerCase();
+        if (Platform.isIntel() && Platform.is64Bit())//amd64
+        {
+            switch(Platform.getOSType()) {
+                case Platform.LINUX:libPathInsideTheJar="/linux-x86-64"; break;
+                case Platform.FREEBSD:libPathInsideTheJar="/freebsd-x86-64"; break;//I guess freebsd could be able to load *so libs
+                //I Guess it's enough for now...
+                //default:libPathInsideTheJar="/dumb";
+            }
+
+        }
+        //aarch64/arm64 support in the future(I hate crossing-compiling)
+        //won't support i386 nor arm32
+
+
+        try (InputStream is=InputNativeLoader.class.getResourceAsStream(libPathInsideTheJar+"/libkokoa.so")){
             Files.copy(is, tempLib.toPath(), StandardCopyOption.REPLACE_EXISTING);
             
         } catch (IOException e) {
@@ -80,7 +117,7 @@ public interface InputNative extends Library {
         }
         InputNative inputnative_inst;
         try {
-            inputnative_inst=(Native)Native.loadLibrary(tempLib.getAbsolutePath(),InputNative.class);
+            inputnative_inst= (InputNative) Native.loadLibrary(tempLib.getAbsolutePath(),InputNative.class);
         }         
         finally {
             if(SystemUtils.IS_OS_UNIX){tempLib.delete();}else{tempLib.deleteOnExit();}
