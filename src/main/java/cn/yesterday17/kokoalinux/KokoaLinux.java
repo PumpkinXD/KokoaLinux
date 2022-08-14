@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.Loader;
 import org.apache.logging.log4j.Logger;
 
 public class KokoaLinux extends DummyModContainer {
@@ -45,6 +46,11 @@ public class KokoaLinux extends DummyModContainer {
     @Subscribe
     public void init(FMLInitializationEvent event) {
         // For subscribe events
+        if(SystemUtils.IS_OS_UNIX&&(!SystemUtils.IS_OS_MAC))
+        {
+            if(!Loader.isModLoaded("patcher")&&(!Loader.isModLoaded("InputFix")))
+            {/*gonna fix "single" input issue here */}
         MinecraftForge.EVENT_BUS.register(GuiChange.class);
+        }
     }
 }

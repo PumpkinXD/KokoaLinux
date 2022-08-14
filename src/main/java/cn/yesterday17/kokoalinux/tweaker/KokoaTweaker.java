@@ -15,6 +15,9 @@ public class KokoaTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        if(!(SystemUtils.IS_OS_UNIX && !SystemUtils.IS_OS_MAC)) {
+            return;
+        }
         // Prepare for Lwjgl Transformer
         LwjglTransformer.prepare(classLoader);
 
