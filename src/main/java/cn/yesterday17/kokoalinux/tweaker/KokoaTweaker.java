@@ -8,6 +8,8 @@ import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.lang3.SystemUtils;
+
 public class KokoaTweaker implements ITweaker {
     @Override
     public void acceptOptions(List<String> args, File gameDir, File assetsDir, String profile) {

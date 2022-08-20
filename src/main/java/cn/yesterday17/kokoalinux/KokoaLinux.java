@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.Loader;
 import org.apache.logging.log4j.Logger;
+import org.apache.commons.lang3.SystemUtils;
 
 public class KokoaLinux extends DummyModContainer {
     private static final String MOD_ID = "kokoalinux";

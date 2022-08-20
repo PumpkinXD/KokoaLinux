@@ -17,7 +17,6 @@ import org.apache.commons.lang3.SystemUtils;
 public interface InputNative extends Library {
 
 
-    //InputNative instance =  InputNativeLoader.load();
     InputNative instance =  InputNativeLoader.Load();
 
 
@@ -50,23 +49,6 @@ public interface InputNative extends Library {
  * InputNativeLoader
  */
  class InputNativeLoader {
-    static InputNative load_deprecated(){
-        //todo: ~~extract native lib to ./config/kokoalinux/libkokoa/os-arch/~~ gonna deprecate this method, f*** jna3.4
-        String libpath; 
-        os=SystemUtils.OS_NAME.toLowerCase();
-        if(Platform.isIntel())
-        {
-            if(Platform.is64Bit())
-            {arch="x86-64";}
-            else
-            {arch="x86";}
-        }
-        else
-        arch=SystemUtils.OS_ARCH;
-        
-        libpath=Paths.get("./config/kokoalinux/libkokoa",os + "-" + arch,"libkokoa.so").toAbsolutePath().toString();
-        return (InputNative)Native.loadLibrary(libpath,InputNative.class);
-    }
     static InputNative Load(){
         InputNative inst;
         try {
@@ -100,8 +82,8 @@ public interface InputNative extends Library {
             }
 
         }
-        //aarch64/arm64 support in the future(I hate crossing-compiling)
-        //won't support i386 nor arm32
+        //aarch64(arm64), loong64 support in the future(I hate crossing-compiling)
+        //won't support i386 and arrch32(arm32)
 
 
         try (InputStream is=InputNativeLoader.class.getResourceAsStream(libPathInsideTheJar+"/libkokoa.so")){
@@ -117,7 +99,7 @@ public interface InputNative extends Library {
         }
         InputNative inputnative_inst;
         try {
-            inputnative_inst= (InputNative) Native.loadLibrary(tempLib.getAbsolutePath(),InputNative.class);
+            inputnative_inst= (InputNative) Native.loadLibrary(tempLib.getAbsolutePath(),InputNative.class);//may throw java.lang.UnsatisfiedLinkError?
         }         
         finally {
             if(SystemUtils.IS_OS_UNIX){tempLib.delete();}else{tempLib.deleteOnExit();}
