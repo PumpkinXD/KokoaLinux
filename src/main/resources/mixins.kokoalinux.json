@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "cn.yesterday17.kokoalinux.mixins",
+  "refmap": "mixins.kokoalinux.refmap.json",
+  "verbose": true,
+  "client": [
+    "MinecraftMixin",
+    "mixinGuiScreen_FixIME"
+  ]
+}

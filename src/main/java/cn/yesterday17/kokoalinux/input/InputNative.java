@@ -17,8 +17,8 @@ import org.apache.commons.lang3.SystemUtils;
 public interface InputNative extends Library {
 
 
-    InputNative instance =  InputNativeLoader.Load();
-
+    InputNative instance = InputNativeLoader.Load();
+//(InputNative) Native.loadLibrary("kokoa", InputNative.class);
 
     /////////////////////////////////////
 
@@ -53,7 +53,7 @@ public interface InputNative extends Library {
         InputNative inst;
         try {
             inst=LoadFromJar();
-        } catch (IOException e) {
+        } catch (Throwable e) {
                 e.printStackTrace();
                 inst=(InputNative)Native.loadLibrary(
                     Paths.get("./mods/kokoalinux/libkokoa","libkokoa.so").toAbsolutePath().toString(),
@@ -71,17 +71,18 @@ public interface InputNative extends Library {
         File tempLib=new File (tempLibFileDir,"libkokoa.so");
 
         String libPathInsideTheJar;
-        libPathInsideTheJar="/"+SystemUtils.OS_NAME.toLowerCase()+"-"+SystemUtils.OS_ARCH.toLowerCase();
+        libPathInsideTheJar="/"+SystemUtils.OS_NAME.toLowerCase()+"-";
+        //libPathInsideTheJar="/"+SystemUtils.OS_NAME.toLowerCase()+"-"+SystemUtils.OS_ARCH.toLowerCase();
         if (Platform.isIntel() && Platform.is64Bit())//amd64
         {
-            switch(Platform.getOSType()) {
-                case Platform.LINUX:libPathInsideTheJar="/linux-x86-64"; break;
-                case Platform.FREEBSD:libPathInsideTheJar="/freebsd-x86-64"; break;//I guess freebsd could be able to load *so libs
+            libPathInsideTheJar+="x86-64";
+          //  switch(Platform.getOSType()) {
+            //    case Platform.LINUX:libPathInsideTheJar="/linux-x86-64"; break;
+              //  case Platform.FREEBSD:libPathInsideTheJar="/freebsd-x86-64"; break;//I guess freebsd could be able to load *so libs
                 //I Guess it's enough for now...
                 //default:libPathInsideTheJar="/dumb";
-            }
-
-        }
+          //  }
+        }else {libPathInsideTheJar+=SystemUtils.OS_ARCH.toLowerCase();}
         //aarch64(arm64), loong64 support in the future(I hate crossing-compiling)
         //won't support i386 and arrch32(arm32)
 
