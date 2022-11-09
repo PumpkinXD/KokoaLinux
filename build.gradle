@@ -125,10 +125,22 @@ task buildLibKokoa() {
     def clean = "libkokoa/clean.sh".execute()
     clean.waitForProcessOutput(System.out, System.err)
 }
+task mvkokoalib() {
+        "mkdir -p ./build/classes/java/main/linux-x86-64".execute().waitForProcessOutput(System.out, System.err)
+        "mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute().waitForProcessOutput(System.out, System.err)
+}
 
 build {
     doFirst {
         buildLibKokoa
+
+        mvkokoalib
+
+        //def mkdir="mkdir -p ./build/classes/java/main/linux-x86-64".execute()
+        //mkdir.waitForProcessOutput(System.out, System.err)
+
+        //def mv="mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute()
+        //mv.waitForProcessOutput(System.out, System.err)
     }
 }
 task preDebugRun() {

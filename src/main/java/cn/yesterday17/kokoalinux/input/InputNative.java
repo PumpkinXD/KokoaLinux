@@ -12,13 +12,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import org.apache.logging.log4j.LogManager;
+
 import org.apache.commons.lang3.SystemUtils;
 
 public interface InputNative extends Library {
 
 
     InputNative instance = InputNativeLoader.Load();
-//(InputNative) Native.loadLibrary("kokoa", InputNative.class);
+
 
     /////////////////////////////////////
 
@@ -49,12 +51,13 @@ public interface InputNative extends Library {
  * InputNativeLoader
  */
  class InputNativeLoader {
-    static InputNative Load(){
+    static InputNative Load(){//dumb jna3.4----I got to do the "job" for it lmao
         InputNative inst;
         try {
             inst=LoadFromJar();
             } 
         catch (Throwable e) {
+                LogManager.getLogger().info("failed to load the lib from the jar",e);
                 e.printStackTrace();
                 inst=(InputNative)Native.loadLibrary(
                     Paths.get("./mods/kokoalinux/libkokoa","libkokoa.so").toAbsolutePath().toString(),
@@ -87,7 +90,8 @@ public interface InputNative extends Library {
         try (InputStream is=InputNativeLoader.class.getResourceAsStream(libPathInsideTheJar+"/libkokoa.so")){
             Files.copy(is, tempLib.toPath(), StandardCopyOption.REPLACE_EXISTING);
             
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             tempLib.delete();
             throw e;
             //TODO: handle exception
@@ -111,7 +115,6 @@ public interface InputNative extends Library {
             throw new IOException("Failed to create temp dir" + genDir.getName());
         }
         return genDir;
-
     }
 
 
