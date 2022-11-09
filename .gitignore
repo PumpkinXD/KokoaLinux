@@ -1,0 +1,33 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+
+# lib
+lib/*.jar
+
+# native shared library
+libkokoa/CMakeFiles
+libkokoa/*.cmake
+libkokoa/*.so
+libkokoa/Makefile
+libkokoa/*Cache*
+libkokoa/*.cbp
