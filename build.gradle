@@ -25,7 +25,7 @@ compileJava {
     sourceCompatibility = targetCompatibility = 8
 }
 
-version = "1.2.2_alpha.0.1"
+version = "1.2.2-alpha.0.1"
 group = "cn.yesterday17.kokoalinux"
 
 minecraft {
