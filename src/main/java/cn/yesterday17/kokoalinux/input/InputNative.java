@@ -53,7 +53,8 @@ public interface InputNative extends Library {
         InputNative inst;
         try {
             inst=LoadFromJar();
-        } catch (Throwable e) {
+            } 
+        catch (Throwable e) {
                 e.printStackTrace();
                 inst=(InputNative)Native.loadLibrary(
                     Paths.get("./mods/kokoalinux/libkokoa","libkokoa.so").toAbsolutePath().toString(),
@@ -72,19 +73,15 @@ public interface InputNative extends Library {
 
         String libPathInsideTheJar;
         libPathInsideTheJar="/"+SystemUtils.OS_NAME.toLowerCase()+"-";
-        //libPathInsideTheJar="/"+SystemUtils.OS_NAME.toLowerCase()+"-"+SystemUtils.OS_ARCH.toLowerCase();
         if (Platform.isIntel() && Platform.is64Bit())//amd64
         {
             libPathInsideTheJar+="x86-64";
-          //  switch(Platform.getOSType()) {
-            //    case Platform.LINUX:libPathInsideTheJar="/linux-x86-64"; break;
-              //  case Platform.FREEBSD:libPathInsideTheJar="/freebsd-x86-64"; break;//I guess freebsd could be able to load *so libs
-                //I Guess it's enough for now...
-                //default:libPathInsideTheJar="/dumb";
-          //  }
-        }else {libPathInsideTheJar+=SystemUtils.OS_ARCH.toLowerCase();}
-        //aarch64(arm64), loong64 support in the future(I hate crossing-compiling)
-        //won't support i386 and arrch32(arm32)
+        }
+        else 
+        {
+            libPathInsideTheJar+=SystemUtils.OS_ARCH.toLowerCase();
+        }
+
 
 
         try (InputStream is=InputNativeLoader.class.getResourceAsStream(libPathInsideTheJar+"/libkokoa.so")){

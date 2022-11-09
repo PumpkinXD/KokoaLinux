@@ -49,7 +49,7 @@ public class KokoaLinux extends DummyModContainer {
         {
             if(!Loader.isModLoaded("patcher")&&(!Loader.isModLoaded("InputFix")))
             {
-                LogManager.getLogger().info("patcher or inputfix not founded");
+                LogManager.getLogger().info("[kokoa-debug]patcher or inputfix not found");
             }
         MinecraftForge.EVENT_BUS.register(GuiChange.class);
         }

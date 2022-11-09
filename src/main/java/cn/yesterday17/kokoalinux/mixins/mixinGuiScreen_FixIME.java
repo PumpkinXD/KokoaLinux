@@ -25,6 +25,7 @@ public class mixinGuiScreen_FixIME {
     @Inject(at = @At("HEAD"), method = "handleKeyboardInput", cancellable = true)
     public void mixinHandleInput(CallbackInfo ci) {
             if(!Loader.isModLoaded("patcher")&&(!Loader.isModLoaded("InputFix"))) {
+                
                 char c0 = Keyboard.getEventCharacter();
 
                 if(Keyboard.getEventKey()==0&&c0 >=' '||Keyboard.getEventKeyState())
