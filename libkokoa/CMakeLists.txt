@@ -3,6 +3,9 @@ project(kokoa C)
 
 #include_directories(/usr/local/include)#for freebsd
 
+#set(CMAKE_C_COMPILER clang)#clang
+#set(CMAKE_CXX_COMPILER clang++)#clang++
+
 set(CMAKE_C_STANDARD 11)
 
 add_library(kokoa SHARED library.c)
