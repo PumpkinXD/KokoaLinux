@@ -19,7 +19,7 @@ import org.apache.commons.lang3.SystemUtils;
 public interface InputNative extends Library {
 
 
-    InputNative instance = InputNativeLoader.Load();
+    InputNative instance = InputNativeLoader.Load();//gonna test jna3.4 in another demo, maybe...(dumb jna3.4)
 
 
     /////////////////////////////////////

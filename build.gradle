@@ -1,3 +1,6 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import org.gradle.internal.os.OperatingSystem
+
 buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
@@ -119,38 +122,49 @@ processResources {
 }
 
 task buildLibKokoa() {
-    def build = "libkokoa/build.sh".execute()
-    build.waitForProcessOutput(System.out, System.err)
+    if(DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris())
+        {
+            def build = "libkokoa/build.sh".execute()
+            build.waitForProcessOutput(System.out, System.err)
 
-    def clean = "libkokoa/clean.sh".execute()
-    clean.waitForProcessOutput(System.out, System.err)
+            def clean = "libkokoa/clean.sh".execute()
+            clean.waitForProcessOutput(System.out, System.err)
+        }
 }
-task mvkokoalib() {
-        "mkdir -p ./build/classes/java/main/linux-x86-64".execute().waitForProcessOutput(System.out, System.err)
-        "mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute().waitForProcessOutput(System.out, System.err)
+task mvLibKokoa() {
+        if(DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris())
+        {
+            "mkdir -p ./build/classes/java/main/linux-x86-64".execute().waitForProcessOutput(System.out, System.err)//gonna edit it later
+            "mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute().waitForProcessOutput(System.out, System.err)
+        }
 }
 
 build {
     doFirst {
-        buildLibKokoa
+        if(DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris())
+            {
+            buildLibKokoa
+            mvLibKokoa
+            }
+            else
+            {
+                println 'current platform is not supported'
+                //TODO: some workaronds for building kokoalinux on windows/macos
+                //gonna use the pre-built branch here
+            }
 
-        mvkokoalib
-
-        //def mkdir="mkdir -p ./build/classes/java/main/linux-x86-64".execute()
-        //mkdir.waitForProcessOutput(System.out, System.err)
-
-        //def mv="mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute()
-        //mv.waitForProcessOutput(System.out, System.err)
     }
 }
 task preDebugRun() {
     buildLibKokoa
 
-    def mkdir = "mkdir -p ./build/classes/java/main/linux-x86-64".execute()
-    mkdir.waitForProcessOutput(System.out, System.err)
+    mvLibKokoa
 
-    def mv = "mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute()
-    mv.waitForProcessOutput(System.out, System.err)
+//    def mkdir = "mkdir -p ./build/classes/java/main/linux-x86-64".execute()
+//    mkdir.waitForProcessOutput(System.out, System.err)
+
+//    def mv = "mv ./libkokoa/libkokoa.so ./build/classes/java/main/linux-x86-64/".execute()
+//    mv.waitForProcessOutput(System.out, System.err)
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
