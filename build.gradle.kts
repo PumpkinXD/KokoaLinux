@@ -65,6 +65,10 @@ dependencies {
     }
     annotationProcessor("org.spongepowered:mixin:0.8.4-SNAPSHOT")
 
+
+    shadowImpl("net.java.dev.jna:jna:5.13.0")
+
+
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.0")
 
@@ -106,6 +110,8 @@ tasks.shadowJar {
 
     // If you want to include other dependencies and shadow them, you can relocate them in here
     fun relocate(name: String) = relocate(name, "cn.yesterday17.kokoalinux.deps.$name")
+
+    relocate("net.java.dev.jna")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
