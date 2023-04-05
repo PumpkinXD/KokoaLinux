@@ -1,3 +1,7 @@
+import org.gradle.nativeplatform.platform.internal.Architectures
+import org.gradle.nativeplatform.platform.internal.OperatingSystemInternal
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
 plugins {
     idea
     java
@@ -115,3 +119,18 @@ tasks.shadowJar {
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
+
+tasks.processResources{
+    filesMatching("mcmod.info"){
+        expand(
+            "version" to project.version, "mcversion" to "1.8.9"
+        )
+    }
+}
+
+val buildLibkokoa by tasks.registering {
+
+println(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
+
+    //TODO:run build script for current plat
+}
