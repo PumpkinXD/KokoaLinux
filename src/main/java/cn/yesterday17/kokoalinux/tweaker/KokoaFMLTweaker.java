@@ -43,9 +43,9 @@ public class KokoaFMLTweaker implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
-        MixinBootstrap.init();
-        Mixins.addConfiguration("mixins." + "kokoalinux" + ".json");
-        MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
+        //MixinBootstrap.init();
+        //Mixins.addConfiguration("mixins." + "kokoalinux" + ".json");
+        //MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
     }
 
     @Override

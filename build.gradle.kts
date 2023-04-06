@@ -17,6 +17,7 @@ version = "1.2.2-alpha.0.1.1"
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
 }
+val tweaker = "cn.yesterday17.kokoalinux.tweaker.KokoaFMLTweaker"
 
 // Minecraft configuration:
 loom {
@@ -26,6 +27,7 @@ loom {
             // If you don't want mixins, remove these lines
             property("mixin.debug", "true")
             property("asmhelper.verbose", "true")
+            property("fml.coreMods.load", tweaker)
             arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
             arg("--mixin", "mixins.kokoalinux.json")
         }
@@ -85,6 +87,7 @@ tasks.withType(Jar::class) {
     manifest.attributes.run {
         this["FMLCorePluginContainsFMLMod"] = "true"
         this["ForceLoadAsMod"] = "true"
+        this["FMLCorePlugin"] = tweaker
 
         // If you don't want mixins, remove these lines
         this["TweakClass"] = "org.spongepowered.asm.launch.MixinTweaker"
