@@ -1,7 +1,4 @@
-#!/usr/bin/env sh
-
-# $1 == "os-arch"
-cd libkokoa/build/$1
+cd libkokoa
 
 rm -rf ./CMakeFiles
 rm -rf ./cmake_install.cmake
