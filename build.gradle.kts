@@ -129,8 +129,12 @@ tasks.processResources{
 }
 
 val buildLibkokoa by tasks.registering {
-
 println(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
-
-    //TODO:run build script for current plat
+    if (DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris()) {
+        val buildcmd = kotlin.arrayOf("libkokoa/build.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
+        val cleancmd = arrayOf("libkokoa/clean.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
+        Runtime.getRuntime().exec(buildcmd).waitFor()
+        Runtime.getRuntime().exec(cleancmd).waitFor()
+    }
+    //TODO:download libkokoa natives from github action/release for other archs(and oses)
 }
