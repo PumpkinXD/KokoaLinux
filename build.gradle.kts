@@ -105,6 +105,9 @@ val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     archiveClassifier.set("all")
     from(tasks.shadowJar)
     input.set(tasks.shadowJar.get().archiveFile)
+}
+
+tasks.shadowJar {
 
     from("./libkokoa/build/"
             +DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName
@@ -113,17 +116,14 @@ val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     {
         include(System.mapLibraryName("kokoa"))
         if(!DefaultNativePlatform.getCurrentOperatingSystem().isSolaris)
-        into(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName
-                +"-"
-                +DefaultNativePlatform.getCurrentArchitecture().name)
+            into(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName
+                    +"-"
+                    +DefaultNativePlatform.getCurrentArchitecture().name)
         else into("sunos"
                 +"-"
                 +DefaultNativePlatform.getCurrentArchitecture().name)
     }
 
-}
-
-tasks.shadowJar {
     archiveClassifier.set("all-dev")
     configurations = listOf(shadowImpl)
     doLast {
