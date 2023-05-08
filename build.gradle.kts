@@ -135,7 +135,8 @@ tasks.shadowJar {
     // If you want to include other dependencies and shadow them, you can relocate them in here
     fun relocate(name: String) = relocate(name, "cn.yesterday17.kokoalinux.deps.$name")
 
-    relocate("net.java.dev.jna")
+    //relocate("net.java.dev.jna")
+    relocate("com.sun.jna")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
