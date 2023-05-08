@@ -1,6 +1,7 @@
 import org.gradle.nativeplatform.platform.internal.Architectures
 import org.gradle.nativeplatform.platform.internal.OperatingSystemInternal
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import org.gradle.nativeplatform.platform.internal.DefaultArchitecture
 
 plugins {
     idea
@@ -104,6 +105,22 @@ val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     archiveClassifier.set("all")
     from(tasks.shadowJar)
     input.set(tasks.shadowJar.get().archiveFile)
+
+    from("./libkokoa/build/"
+            +DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName
+            +"-"
+            +DefaultNativePlatform.getCurrentArchitecture().name)
+    {
+        include(System.mapLibraryName("kokoa"))
+        if(!DefaultNativePlatform.getCurrentOperatingSystem().isSolaris)
+        into(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName
+                +"-"
+                +DefaultNativePlatform.getCurrentArchitecture().name)
+        else into("sunos"
+                +"-"
+                +DefaultNativePlatform.getCurrentArchitecture().name)
+    }
+
 }
 
 tasks.shadowJar {
@@ -132,12 +149,23 @@ tasks.processResources{
 }
 
 val buildLibkokoa by tasks.registering {
-println(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
+System.out.println(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
     if (DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris()) {
+        val OSprefix:String; val Arch:String
+        if(!DefaultNativePlatform.getCurrentOperatingSystem().isSolaris) {
+            OSprefix = DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName
+        } else { OSprefix = "sunos"}
+        Arch = DefaultNativePlatform.getCurrentArchitecture().name
+
         val buildcmd = kotlin.arrayOf("libkokoa/build.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
         val cleancmd = arrayOf("libkokoa/clean.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
         Runtime.getRuntime().exec(buildcmd).waitFor()
         Runtime.getRuntime().exec(cleancmd).waitFor()
+
+
+
+
     }
     //TODO:download libkokoa natives from github action/release for other archs(and oses)
+
 }
