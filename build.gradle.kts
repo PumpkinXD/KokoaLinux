@@ -145,12 +145,16 @@ tasks.processResources{
 }
 
 val buildLibkokoa by tasks.registering {
+
+    fun String.execute() = org.codehaus.groovy.runtime.ProcessGroovyMethods.execute(this)
+    fun Process.waitForProcessOutput(out: java.io.OutputStream,err: java.io.OutputStream)= org.codehaus.groovy.runtime.ProcessGroovyMethods.waitForProcessOutput(this,out,err)
+
 println(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
     if (DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris()) {
-        val buildcmd = kotlin.arrayOf("libkokoa/build.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
+        val buildcmd = arrayOf("libkokoa/build.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
         val cleancmd = arrayOf("libkokoa/clean.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
-        Runtime.getRuntime().exec(buildcmd).waitFor()
-        Runtime.getRuntime().exec(cleancmd).waitFor()
+        Runtime.getRuntime().exec(buildcmd).waitForProcessOutput(System.out,System.err)
+        Runtime.getRuntime().exec(cleancmd).waitForProcessOutput(System.out,System.err)
     }
     //TODO:download libkokoa natives from github action/release for other archs(and oses)
 }
