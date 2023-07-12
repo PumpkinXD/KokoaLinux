@@ -7,8 +7,8 @@
   "mcversion": "${mcversion}",
   "url": "https://github.com/Yesterday17/KokoaLinux",
   "updateUrl": "",
-  "authorList": ["Yesterday17"],
-  "credits": "",
+  "authorList": ["Yesterday17","PumpkinXD"],
+  "credits": "romangraef",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

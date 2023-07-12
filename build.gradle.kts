@@ -97,10 +97,16 @@ tasks.withType(Jar::class) {
 
 
 val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
-    archiveClassifier.set("all")
+    archiveClassifier.set("")
     from(tasks.shadowJar)
     input.set(tasks.shadowJar.get().archiveFile)
 }
+
+tasks.jar {
+    archiveClassifier.set("without-deps")
+    destinationDirectory.set(layout.buildDirectory.dir("badjars"))
+}
+
 
 tasks.shadowJar {
 
@@ -121,12 +127,12 @@ tasks.shadowJar {
 
 
 
-
+    destinationDirectory.set(layout.buildDirectory.dir("badjars"))
     archiveClassifier.set("all-dev")
     configurations = listOf(shadowImpl)
     doLast {
         configurations.forEach {
-            println("Config: ${it.files}")
+            println("Copying jars into mod: ${it.files}")
         }
     }
 
@@ -153,6 +159,10 @@ println(DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+
     if (DefaultNativePlatform.getCurrentOperatingSystem().isLinux()||DefaultNativePlatform.getCurrentOperatingSystem().isFreeBSD()||DefaultNativePlatform.getCurrentOperatingSystem().isSolaris()) {
         val buildcmd = arrayOf("libkokoa/build.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
         val cleancmd = arrayOf("libkokoa/clean.sh",DefaultNativePlatform.getCurrentOperatingSystem().internalOs.familyName+"-"+DefaultNativePlatform.getCurrentArchitecture().name)
+
+        //org.codehaus.groovy.runtime.ProcessGroovyMethods.execute(buildcmd).waitForProcessOutput(System.out,System.err)
+        //org.codehaus.groovy.runtime.ProcessGroovyMethods.execute(cleancmd).waitForProcessOutput(System.out,System.err)
+
         Runtime.getRuntime().exec(buildcmd).waitForProcessOutput(System.out,System.err)
         Runtime.getRuntime().exec(cleancmd).waitForProcessOutput(System.out,System.err)
     }
